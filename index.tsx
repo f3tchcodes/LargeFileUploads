@@ -21,15 +21,18 @@ function stopUpload(upload: CloudUpload) {
             subtitle="The video is larger than 10mb, would you like me to automatically upload it to a public video service?"
             confirmText="Continue"
             cancelText="I'm good"
-            onConfirm={() => {
-                console.log("Confirmed!");
-            }}
-            onCancel={() => {
-                console.log("Cancelled!");
-            }}
+            onConfirm={() => { externalUpload(file); }}
+            onCancel={() => { reupload(file); }}
         />
     ));
-    console.log(file);
+}
+
+async function externalUpload(file: File) {
+    // upload file to external website
+}
+
+async function reupload(file: File) {
+    // reupload the file that was dismissed via api
 }
 
 export default definePlugin({
