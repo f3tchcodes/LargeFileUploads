@@ -9,7 +9,7 @@ import { type CloudUpload } from "@vencord/discord-types";
 import { ConfirmModal, openModal } from "@webpack/common";
 import React from "react";
 
-function stopupload(upload: CloudUpload) {
+function stopUpload(upload: CloudUpload) {
     const sizeLimit = 10 * 1024 * 1024;
     const { size } = upload.item.file;
     const { file } = upload.item;
@@ -42,10 +42,10 @@ export default definePlugin({
             replacement: [
                 {
                     match: /async uploadFiles\((\i)\){/,
-                    replace: "$&$1.forEach($self.stopupload);"
+                    replace: "$&$1.forEach($self.stopUpload);"
                 }
             ],
         }
     ],
-    stopupload: stopupload
+    stopUpload: stopUpload
 });
