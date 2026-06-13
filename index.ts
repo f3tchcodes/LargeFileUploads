@@ -23,12 +23,11 @@ export default definePlugin({
         }
     ],
     inspect(upload: CloudUpload) {
-        console.log("oh wow it's working");
+        const sizeLimit = 10 * 1024 * 1024;
         const { size } = upload.item.file;
-        const { type } = upload.item.file;
-        if (size > (10 * 1024 * 1024) && type.startsWith("video/")) {
-            console.log("this the shit im talking about");
-        }
+        const { file } = upload.item;
+        upload.cancel();
+        console.log(file);
     }
 });
 
