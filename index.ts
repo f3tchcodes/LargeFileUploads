@@ -26,7 +26,7 @@ export default definePlugin({
         console.log("oh wow it's working");
         const { size } = upload.item.file;
         const { type } = upload.item.file;
-        if (size > 10 && type.startsWith("video/")) {
+        if (size > (10 * 1024 * 1024) && type.startsWith("video/")) {
             console.log("this the shit im talking about");
         }
     }
