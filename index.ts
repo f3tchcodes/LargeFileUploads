@@ -24,7 +24,11 @@ export default definePlugin({
     ],
     inspect(upload: CloudUpload) {
         console.log("oh wow it's working");
-        console.log(upload);
+        const { size } = upload.item.file;
+        const { type } = upload.item.file;
+        if (size > 10 && type.startsWith("video/")) {
+            console.log("this the shit im talking about");
+        }
     }
 });
 
