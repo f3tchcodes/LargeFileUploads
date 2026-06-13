@@ -5,7 +5,7 @@
  */
 
 import definePlugin from "@utils/types";
-import { CloudUpload } from "@vencord/discord-types";
+import { type CloudUpload } from "@vencord/discord-types";
 
 export default definePlugin({
     name: "SmartVideoUploads",
