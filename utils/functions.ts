@@ -5,6 +5,7 @@
  */
 
 import { Native } from "..";
+import { sendMsg } from "./sendMessage";
 
 export async function uploadToUguuFinal(file: File) {
     const arrayBuffer = await file.arrayBuffer();
@@ -13,7 +14,7 @@ export async function uploadToUguuFinal(file: File) {
         name: file.name,
         type: file.type,
         data: new Uint8Array(arrayBuffer),
-    }).then(a => {
-        console.log(a.files[0].url);
+    }).then(async a => {
+        return await sendMsg(`[${a.files[0].filename}](${a.files[0].url})`);
     });
 }
