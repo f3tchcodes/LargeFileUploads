@@ -33,5 +33,4 @@ export function openConfirmModal(file: File) {
             onCancel={() => { reupload(file); }}
         />
     ));
-    console.log("inside modal after yes");
 }
