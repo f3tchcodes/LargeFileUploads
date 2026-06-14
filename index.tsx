@@ -7,7 +7,14 @@
 import { sendMessage } from "@utils/discord";
 import definePlugin from "@utils/types";
 import { type CloudUpload } from "@vencord/discord-types";
-import { ConfirmModal, FluxDispatcher, MessageActions, openModal, PendingReplyStore, SelectedChannelStore } from "@webpack/common";
+import {
+    ConfirmModal,
+    FluxDispatcher,
+    MessageActions,
+    openModal,
+    PendingReplyStore,
+    SelectedChannelStore,
+} from "@webpack/common";
 import React from "react";
 
 function stopUpload(upload: CloudUpload) {
@@ -34,7 +41,6 @@ async function externalUpload(file: File) {
 
 async function reupload(file: File) {
     const channelID = SelectedChannelStore.getChannelId();
-    console.log(channelID);
 
     sendMessage(
         channelID,
