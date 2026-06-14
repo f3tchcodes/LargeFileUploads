@@ -6,23 +6,17 @@
 
 import definePlugin from "@utils/types";
 import { CloudUpload as TCloudUpload } from "@vencord/discord-types";
-import { CloudUploadPlatform } from "@vencord/discord-types/enums";
 import { findLazy } from "@webpack";
 import {
     ConfirmModal,
-    Constants,
-    MessageActions,
     openModal,
-    PendingReplyStore,
-    RestAPI,
-    SelectedChannelStore,
-    showToast,
-    SnowflakeUtils,
-    Toasts,
 } from "@webpack/common";
 import React from "react";
 
-const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
+import { uguuUpload } from "./services/uguu";
+import { reupload } from "./utils/reupload";
+
+export const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
 
 function stopUpload(upload: TCloudUpload) {
     const sizeLimit = 10 * 1024 * 1024;
@@ -36,49 +30,10 @@ function stopUpload(upload: TCloudUpload) {
             subtitle="The file is larger than 10mb, would you like me to automatically upload it to a public hosting service?"
             confirmText="Continue"
             cancelText="I'm good"
-            onConfirm={() => { externalUpload(file); }}
+            onConfirm={() => { uguuUpload(file); }}
             onCancel={() => { reupload(file); }}
         />
     ));
-}
-
-async function externalUpload(file: File) {
-    // upload file to external website
-}
-
-async function reupload(file: File) {
-    const channelId = SelectedChannelStore.getChannelId();
-    const reply = PendingReplyStore.getPendingReply(channelId);
-    const upload = new CloudUpload({
-        file,
-        isThumbnail: true,
-        platform: CloudUploadPlatform.WEB
-    }, channelId);
-
-    upload.on("complete", () => {
-        RestAPI.post({
-            url: Constants.Endpoints.MESSAGES(channelId),
-            body: {
-                channel_id: channelId,
-                content: "",
-                nonce: SnowflakeUtils.fromTimestamp(Date.now()),
-                sticker_ids: [],
-                type: 0,
-                attachments: [{
-                    id: "0",
-                    filename: upload.filename,
-                    uploaded_filename: upload.uploadedFilename,
-                }],
-                message_reference: reply
-                    ? MessageActions.getSendMessageOptionsForReply(reply)?.messageReference
-                    : null,
-            }
-        });
-    });
-
-    upload.on("error", () => showToast("Failed to upload file", Toasts.Type.FAILURE));
-
-    upload.upload();
 }
 
 export default definePlugin({
