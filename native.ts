@@ -6,6 +6,6 @@
 
 import { uguuUpload, type UploadData } from "./services/uguu";
 
-export async function uploadToUguu(_event: unknown, upload: UploadData) {
+export async function fetchNativeUguu(_event: unknown, upload: UploadData) {
     return await uguuUpload(upload);
 }

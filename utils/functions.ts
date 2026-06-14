@@ -7,10 +7,10 @@
 import { Native } from "..";
 import { sendMsg } from "./sendMessage";
 
-export async function uploadToUguuFinal(file: File) {
+export async function uploadToUguu(file: File) {
     const arrayBuffer = await file.arrayBuffer();
 
-    return await Native.uploadToUguu({
+    return await Native.fetchNativeUguu({
         name: file.name,
         type: file.type,
         data: new Uint8Array(arrayBuffer),

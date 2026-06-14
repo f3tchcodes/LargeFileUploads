@@ -10,7 +10,7 @@ import {
 } from "@webpack/common";
 import React from "react";
 
-import { uploadToUguuFinal } from "./functions";
+import { uploadToUguu } from "./functions";
 import { reupload } from "./reupload";
 
 export function openConfirmModal(file: File) {
@@ -21,7 +21,7 @@ export function openConfirmModal(file: File) {
             subtitle="The file is larger than 10mb, would you like me to automatically upload it to a public hosting service?"
             confirmText="Continue"
             cancelText="I'm good"
-            onConfirm={async () => { uploadToUguuFinal(file); }}
+            onConfirm={async () => { uploadToUguu(file); }}
             onCancel={() => { reupload(file); }}
         />
     ));
