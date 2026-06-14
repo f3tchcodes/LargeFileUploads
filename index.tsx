@@ -33,7 +33,7 @@ function stopUpload(upload: TCloudUpload) {
         <ConfirmModal
             {...props}
             title="Smart Video Uploads"
-            subtitle="The video is larger than 10mb, would you like me to automatically upload it to a public video service?"
+            subtitle="The file is larger than 10mb, would you like me to automatically upload it to a public hosting service?"
             confirmText="Continue"
             cancelText="I'm good"
             onConfirm={() => { externalUpload(file); }}
@@ -76,14 +76,14 @@ async function reupload(file: File) {
         });
     });
 
-    upload.on("error", () => showToast("Failed to upload voice message", Toasts.Type.FAILURE));
+    upload.on("error", () => showToast("Failed to upload file", Toasts.Type.FAILURE));
 
     upload.upload();
 }
 
 export default definePlugin({
-    name: "SmartVideoUploads",
-    description: "Automatically uploads oversized videos to a hosting service and sends a link instead.",
+    name: "LargeFileUploads",
+    description: "Automatically uploads oversized files (videos, images) to a hosting service and sends a link instead.",
     authors: [{ name: "f3tch", id: 1016388460929626174n }],
     patches: [
         {
