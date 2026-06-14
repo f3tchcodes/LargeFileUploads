@@ -7,15 +7,8 @@
 import definePlugin from "@utils/types";
 import { CloudUpload as TCloudUpload } from "@vencord/discord-types";
 import { findLazy } from "@webpack";
-import {
-    ConfirmModal,
-    openModal,
-} from "@webpack/common";
-import React from "react";
 
-import { uguuUpload } from "./services/uguu";
-import { reupload } from "./utils/reupload";
-
+import { openConfirmModal } from "./utils/modals";
 export const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
 
 function stopUpload(upload: TCloudUpload) {
@@ -23,17 +16,7 @@ function stopUpload(upload: TCloudUpload) {
     const { size } = upload.item.file;
     const { file } = upload.item;
     upload.cancel();
-    const confirm = openModal(props => (
-        <ConfirmModal
-            {...props}
-            title="LargeFileUploads"
-            subtitle="The file is larger than 10mb, would you like me to automatically upload it to a public hosting service?"
-            confirmText="Continue"
-            cancelText="I'm good"
-            onConfirm={() => { uguuUpload(file); }}
-            onCancel={() => { reupload(file); }}
-        />
-    ));
+    openConfirmModal(file);
 }
 
 export default definePlugin({
