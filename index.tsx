@@ -83,7 +83,7 @@ async function reupload(file: File) {
 
 export default definePlugin({
     name: "LargeFileUploads",
-    description: "Automatically uploads oversized files (videos, images) to a hosting service and sends a link instead.",
+    description: "Automatically uploads oversized files to a hosting service and sends a link instead.",
     authors: [{ name: "f3tch", id: 1016388460929626174n }],
     patches: [
         {
