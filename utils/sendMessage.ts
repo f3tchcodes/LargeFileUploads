@@ -7,11 +7,11 @@
 import { sendMessage } from "@utils/discord";
 import { FluxDispatcher, MessageActions, PendingReplyStore, SelectedChannelStore } from "@webpack/common";
 
-export function sendMsg(content: string) {
+export async function sendMsg(content: string) {
     const channelID = SelectedChannelStore.getChannelId();
     console.log(channelID);
 
-    sendMessage(
+    await sendMessage(
         channelID,
         { content },
         false,
