@@ -4,20 +4,27 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { sendMessage } from "@utils/discord";
 import definePlugin from "@utils/types";
-import { type CloudUpload } from "@vencord/discord-types";
+import { CloudUpload as TCloudUpload } from "@vencord/discord-types";
+import { CloudUploadPlatform } from "@vencord/discord-types/enums";
+import { findLazy } from "@webpack";
 import {
     ConfirmModal,
-    FluxDispatcher,
+    Constants,
     MessageActions,
     openModal,
     PendingReplyStore,
+    RestAPI,
     SelectedChannelStore,
+    showToast,
+    SnowflakeUtils,
+    Toasts,
 } from "@webpack/common";
 import React from "react";
 
-function stopUpload(upload: CloudUpload) {
+const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
+
+function stopUpload(upload: TCloudUpload) {
     const sizeLimit = 10 * 1024 * 1024;
     const { size } = upload.item.file;
     const { file } = upload.item;
@@ -40,18 +47,38 @@ async function externalUpload(file: File) {
 }
 
 async function reupload(file: File) {
-    const channelID = SelectedChannelStore.getChannelId();
+    const channelId = SelectedChannelStore.getChannelId();
+    const reply = PendingReplyStore.getPendingReply(channelId);
+    const upload = new CloudUpload({
+        file,
+        isThumbnail: true,
+        platform: CloudUploadPlatform.WEB
+    }, channelId);
 
-    sendMessage(
-        channelID,
-        {
-            content: "hi"
-        },
-        false,
-        MessageActions.getSendMessageOptionsForReply(PendingReplyStore.getPendingReply(channelID))
-    ).then(() => {
-        FluxDispatcher.dispatch({ type: "DELETE_PENDING_REPLY", channelId: channelID });
+    upload.on("complete", () => {
+        RestAPI.post({
+            url: Constants.Endpoints.MESSAGES(channelId),
+            body: {
+                channel_id: channelId,
+                content: "",
+                nonce: SnowflakeUtils.fromTimestamp(Date.now()),
+                sticker_ids: [],
+                type: 0,
+                attachments: [{
+                    id: "0",
+                    filename: upload.filename,
+                    uploaded_filename: upload.uploadedFilename,
+                }],
+                message_reference: reply
+                    ? MessageActions.getSendMessageOptionsForReply(reply)?.messageReference
+                    : null,
+            }
+        });
     });
+
+    upload.on("error", () => showToast("Failed to upload voice message", Toasts.Type.FAILURE));
+
+    upload.upload();
 }
 
 export default definePlugin({
