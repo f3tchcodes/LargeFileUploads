@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { sendMessage } from "@utils/discord";
 import definePlugin from "@utils/types";
 import { type CloudUpload } from "@vencord/discord-types";
-import { ConfirmModal, openModal } from "@webpack/common";
+import { ConfirmModal, FluxDispatcher, MessageActions, openModal, PendingReplyStore, SelectedChannelStore } from "@webpack/common";
 import React from "react";
 
 function stopUpload(upload: CloudUpload) {
@@ -32,7 +33,19 @@ async function externalUpload(file: File) {
 }
 
 async function reupload(file: File) {
-    // reupload the file that was dismissed via api
+    const channelID = SelectedChannelStore.getChannelId();
+    console.log(channelID);
+
+    sendMessage(
+        channelID,
+        {
+            content: "hi"
+        },
+        false,
+        MessageActions.getSendMessageOptionsForReply(PendingReplyStore.getPendingReply(channelID))
+    ).then(() => {
+        FluxDispatcher.dispatch({ type: "DELETE_PENDING_REPLY", channelId: channelID });
+    });
 }
 
 export default definePlugin({
