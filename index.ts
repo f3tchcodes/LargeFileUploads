@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import definePlugin from "@utils/types";
+import definePlugin, { PluginNative } from "@utils/types";
 import { CloudUpload as TCloudUpload } from "@vencord/discord-types";
 import { findLazy } from "@webpack";
 
 import { openConfirmModal } from "./utils/modals";
 export const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
+export const Native = VencordNative.pluginHelpers.LargeFileUploads as PluginNative<typeof import("./native")>;
 
-function stopUpload(upload: TCloudUpload) {
+async function stopUpload(upload: TCloudUpload) {
     const { file } = upload.item;
     upload.cancel();
     openConfirmModal(file);
