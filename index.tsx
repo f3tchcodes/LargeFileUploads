@@ -32,7 +32,7 @@ function stopUpload(upload: TCloudUpload) {
     const confirm = openModal(props => (
         <ConfirmModal
             {...props}
-            title="Smart Video Uploads"
+            title="LargeFileUploads"
             subtitle="The file is larger than 10mb, would you like me to automatically upload it to a public hosting service?"
             confirmText="Continue"
             cancelText="I'm good"
