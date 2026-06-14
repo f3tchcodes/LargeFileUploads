@@ -7,5 +7,5 @@
 import { uguuUpload, type UploadData } from "./services/uguu";
 
 export async function uploadToUguu(_event: unknown, upload: UploadData) {
-    return uguuUpload(upload);
+    return await uguuUpload(upload);
 }
