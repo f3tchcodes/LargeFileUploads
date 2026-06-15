@@ -26,6 +26,16 @@ export function openConfirmModal(file: File) {
             cancelText="I'm good"
             onConfirm={async () => { uploadToUguu(file); }}
             onCancel={() => { reupload(file); }}
+            actionBarInput={
+                <Checkbox
+                    value={false}
+                    onChange={() => {
+                        console.log("actionbarinput changed");
+                    }}
+                >
+                    Automatically decide next time
+                </Checkbox>
+            }
         >
             <HeadingSecondary>Select your preferred file hosting service: </HeadingSecondary>
             {SERVICES.map(service => (
