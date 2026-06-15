@@ -48,7 +48,7 @@ export function openConfirmModal(file: File) {
                         console.log("changed");
                     }}
                 >
-                    <span><strong>Service name: </strong>{service.name}</span>
+                    <span><strong>{service.name}</strong></span>
                     <br />
                     <span><strong>Max size: </strong>{service.maxSizeMb}</span>
                     <br />
