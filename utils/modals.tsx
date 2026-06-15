@@ -9,11 +9,11 @@ import {
     React
 } from "@webpack/common";
 
-import { UploadModal } from "../components/UploadModal";
+import { ConfirmModalPriv } from "../components/ConfirmModalPriv";
 
 export function openConfirmModal(file: File) {
     openModal(props => (
-        <UploadModal
+        <ConfirmModalPriv
             {...props}
             file={file}
         />

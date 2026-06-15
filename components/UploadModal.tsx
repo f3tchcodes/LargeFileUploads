@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { HeadingSecondary } from "@components/Heading";
 import {
     Checkbox,
     ConfirmModal,
@@ -13,7 +12,6 @@ import {
 
 import { SERVICES } from "../config/config";
 import { uploadToUguu } from "../utils/functions";
-import { reupload } from "../utils/reupload";
 
 export interface UploadModalFiles {
     file: File;
@@ -27,29 +25,17 @@ export function UploadModal({
     ...props
 }: UploadModalFiles) {
     const [selectedService, setSelectedService] = React.useState("uguu");
-    const [selectedAuto, setSelectedAuto] = React.useState(false);
 
     return (
         <ConfirmModal
             {...props}
             title="LargeFileUploads"
-            subtitle="The file is larger than 10mb, would you like me to automatically upload it to a public hosting service?"
+            subtitle="Select your preferred file hosting service: "
             confirmText="Upload"
-            cancelText="I'm good"
+            cancelText="Cancel"
             onConfirm={async () => { await uploadToUguu(file); }}
-            onCancel={() => { reupload(file); }}
-            actionBarInput={
-                <Checkbox
-                    value={selectedAuto}
-                    onChange={() => {
-                        setSelectedAuto(!selectedAuto);
-                    }}
-                >
-                    Automatically decide next time
-                </Checkbox>
-            }
+            onCancel={() => { }}
         >
-            <HeadingSecondary>Select your preferred file hosting service: </HeadingSecondary>
             {SERVICES.map(service => (
                 <Checkbox
                     key={service.id}
