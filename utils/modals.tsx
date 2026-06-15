@@ -22,7 +22,7 @@ export function openConfirmModal(file: File) {
             {...props}
             title="LargeFileUploads"
             subtitle="The file is larger than 10mb, would you like me to automatically upload it to a public hosting service?"
-            confirmText="Continue"
+            confirmText="Upload"
             cancelText="I'm good"
             onConfirm={async () => { uploadToUguu(file); }}
             onCancel={() => { reupload(file); }}
