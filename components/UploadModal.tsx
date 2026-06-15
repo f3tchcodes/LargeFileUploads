@@ -36,7 +36,7 @@ export function UploadModal({
             subtitle="The file is larger than 10mb, would you like me to automatically upload it to a public hosting service?"
             confirmText="Upload"
             cancelText="I'm good"
-            onConfirm={async () => { uploadToUguu(file); }}
+            onConfirm={async () => { await uploadToUguu(file); }}
             onCancel={() => { reupload(file); }}
             actionBarInput={
                 <Checkbox
