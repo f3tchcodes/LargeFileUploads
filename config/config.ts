@@ -19,7 +19,7 @@ export const SERVICES: UploadService[] = [
         name: "Uguu",
         maxSizeMb: "128mb",
         expiryTime: "3 hours",
-        embed: "True",
+        embed: "Available",
         bestFor: "Temporary media sharing."
     }
 ];
