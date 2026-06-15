@@ -51,7 +51,7 @@ export function ConfirmModalPriv({
                         setSelectedAuto(!selectedAuto);
                     }}
                 >
-                    Automatic decision
+                    Automatic selection
                 </Checkbox>
             }
         >
