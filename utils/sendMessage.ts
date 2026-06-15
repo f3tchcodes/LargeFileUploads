@@ -7,10 +7,16 @@
 import { sendMessage } from "@utils/discord";
 import { FluxDispatcher, MessageActions, PendingReplyStore, SelectedChannelStore } from "@webpack/common";
 
-export async function sendMsg(content: string) {
-    const channelID = SelectedChannelStore.getChannelId();
-    console.log(channelID);
+// we need to create separate channel id function
+// so we can store the channel id while upload,
+// that way even if the user changes their channel
+// *while* uploading the file, the file is sent to
+// the correct channel where the upload started from.
+export function getChannelID(): string {
+    return SelectedChannelStore.getChannelId();
+}
 
+export async function sendMsg(channelID: string, content: string) {
     await sendMessage(
         channelID,
         { content },
