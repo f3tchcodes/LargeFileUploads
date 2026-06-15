@@ -55,6 +55,7 @@ export function ConfirmModalPriv({
                 </Checkbox>
             }
         >
+            <span>Click <strong>Continue</strong> to select a hosting service.</span>
         </ConfirmModal >
     );
 }
