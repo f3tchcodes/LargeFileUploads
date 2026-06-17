@@ -13,7 +13,7 @@ import {
 import { SERVICES } from "../config/config";
 import { uploadToUguu } from "../utils/functions";
 
-export interface UploadModalFiles {
+export interface SelectionModalProps {
     file: File;
     message: string;
 
@@ -21,11 +21,11 @@ export interface UploadModalFiles {
     onClose: () => void;
 }
 
-export function UploadModal({
+export function SelectionModal({
     file,
     message,
     ...props
-}: UploadModalFiles) {
+}: SelectionModalProps) {
     const [selectedService, setSelectedService] = React.useState("uguu");
 
     return (

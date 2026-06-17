@@ -12,7 +12,7 @@ import {
 } from "@webpack/common";
 
 import { reupload } from "../utils/reupload";
-import { UploadModal } from "./UploadModal";
+import { SelectionModal } from "./SelectionModal";
 
 export interface ConfirmModalPrivInt {
     file: File;
@@ -38,7 +38,7 @@ export function ConfirmModalPriv({
             cancelText="I'm good"
             onConfirm={() => {
                 openModal(props => (
-                    <UploadModal
+                    <SelectionModal
                         file={file}
                         message={message}
                         {...props}
