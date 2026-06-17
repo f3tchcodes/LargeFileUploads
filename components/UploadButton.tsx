@@ -18,15 +18,15 @@ import { SelectionModal } from "./SelectionModal";
 import { UploadIcon } from "./UploadIcon";
 
 export interface DraftActions {
-    clearDraft(channelId: string, DraftType): void;
+    clearDraft(channelId: string, type: typeof DraftType): void;
 }
 
 export interface UploadActions {
-    clearAll(channelId: string, Drafttype): void;
+    clearAll(channelId: string, type: typeof DraftType): void;
 }
 
 const DraftActions = findByPropsLazy("clearDraft") as DraftActions;
-const UploadActions = findByPropsLazy("setUploads");
+const UploadActions = findByPropsLazy("setUploads") as UploadActions;
 
 const getDraft = (channelId: string) => DraftStore.getDraft(channelId, DraftType.ChannelMessage);
 let draftMessage = "";
