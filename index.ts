@@ -8,12 +8,15 @@ import definePlugin, { PluginNative } from "@utils/types";
 import { CloudUpload as TCloudUpload } from "@vencord/discord-types";
 import { findLazy } from "@webpack";
 
+import { draftMessage, UploadButton } from "./components/UploadButton";
+import { UploadIcon } from "./components/UploadIcon";
 import { openConfirmModal } from "./utils/modals";
 export const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
 export const Native = VencordNative.pluginHelpers.LargeFileUploads as PluginNative<typeof import("./native")>;
 
 async function stopUpload(upload: TCloudUpload) {
     const { file } = upload.item;
+    console.log(`my content: ${draftMessage}`);
     upload.cancel();
     openConfirmModal(file);
 }
@@ -33,5 +36,9 @@ export default definePlugin({
             ],
         }
     ],
-    stopUpload: stopUpload
+    stopUpload: stopUpload,
+    chatBarButton: {
+        icon: UploadIcon,
+        render: UploadButton
+    }
 });
