@@ -16,6 +16,7 @@ import { UploadModal } from "./UploadModal";
 
 export interface ConfirmModalPrivInt {
     file: File;
+    message: string;
 
     transitionState: number;
     onClose: () => void;
@@ -23,6 +24,7 @@ export interface ConfirmModalPrivInt {
 
 export function ConfirmModalPriv({
     file,
+    message,
     ...props
 }: ConfirmModalPrivInt) {
     const [selectedAuto, setSelectedAuto] = React.useState(false);
@@ -38,6 +40,7 @@ export function ConfirmModalPriv({
                 openModal(props => (
                     <UploadModal
                         file={file}
+                        message={message}
                         {...props}
                     />
                 ));

@@ -11,11 +11,12 @@ import {
 
 import { ConfirmModalPriv } from "../components/ConfirmModalPriv";
 
-export function openConfirmModal(file: File) {
+export function openConfirmModal(file: File, message) {
     openModal(props => (
         <ConfirmModalPriv
             {...props}
             file={file}
+            message={message}
         />
     ));
 }

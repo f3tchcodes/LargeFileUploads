@@ -15,6 +15,7 @@ import { uploadToUguu } from "../utils/functions";
 
 export interface UploadModalFiles {
     file: File;
+    message: string;
 
     transitionState: number;
     onClose: () => void;
@@ -22,6 +23,7 @@ export interface UploadModalFiles {
 
 export function UploadModal({
     file,
+    message,
     ...props
 }: UploadModalFiles) {
     const [selectedService, setSelectedService] = React.useState("uguu");
@@ -33,7 +35,7 @@ export function UploadModal({
             subtitle="Select your preferred file hosting service: "
             confirmText="Upload"
             cancelText="Cancel"
-            onConfirm={async () => { await uploadToUguu(file); }}
+            onConfirm={async () => { await uploadToUguu(file, message); }}
             onCancel={() => { }}
         >
             {SERVICES.map(service => (

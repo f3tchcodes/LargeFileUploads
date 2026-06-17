@@ -7,7 +7,7 @@
 import { Native } from "..";
 import { getChannelID, sendMsg } from "./sendMessage";
 
-export async function uploadToUguu(file: File) {
+export async function uploadToUguu(file: File, message: string) {
     const channelID = getChannelID();
     const arrayBuffer = await file.arrayBuffer();
 
@@ -16,6 +16,6 @@ export async function uploadToUguu(file: File) {
         type: file.type,
         data: new Uint8Array(arrayBuffer),
     }).then(async a => {
-        return await sendMsg(channelID, `[${a.files[0].filename}](${a.files[0].url})`);
+        return await sendMsg(channelID, `${message} [${a.files[0].filename}](${a.files[0].url})`);
     });
 }

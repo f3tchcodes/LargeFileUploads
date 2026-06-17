@@ -18,7 +18,7 @@ async function stopUpload(upload: TCloudUpload) {
     const { file } = upload.item;
     console.log(`my content: ${draftMessage}`);
     upload.cancel();
-    openConfirmModal(file);
+    openConfirmModal(file, draftMessage);
 }
 
 export default definePlugin({
