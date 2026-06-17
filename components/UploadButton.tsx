@@ -5,6 +5,7 @@
  */
 
 import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
+import { IconComponent } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
 import {
     DraftStore,
@@ -15,7 +16,6 @@ import {
 } from "@webpack/common";
 
 import { SelectionModal } from "./SelectionModal";
-import { UploadIcon } from "./UploadIcon";
 
 export interface DraftActions {
     clearDraft(channelId: string, type: typeof DraftType): void;
@@ -30,6 +30,19 @@ const UploadActions = findByPropsLazy("setUploads") as UploadActions;
 
 const getDraft = (channelId: string) => DraftStore.getDraft(channelId, DraftType.ChannelMessage);
 let draftMessage = "";
+
+export const UploadIcon: IconComponent = ({ width = 20, height = 20, className }) => (
+    <svg
+        viewBox="0 0 24 24"
+        width={width}
+        height={height}
+        className={className}
+        fill="currentColor"
+    >
+        <path d="M12 3l5 5h-3v6h-4V8H7l5-5z" />
+        <path d="M5 18h14v3H5z" />
+    </svg>
+);
 
 export const UploadButton: ChatBarButtonFactory = ({ isAnyChat, isEmpty, type: { attachments }, channel: { id: channelId } }) => {
     const [draft, uploads] = useStateFromStores([DraftStore, UploadAttachmentStore], () => [
