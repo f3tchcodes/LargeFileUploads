@@ -14,7 +14,7 @@ import { SERVICES } from "../config/config";
 import { uploadToUguu } from "../utils/functions";
 
 export interface SelectionModalProps {
-    file: File;
+    files: File[];
     message: string;
 
     transitionState: number;
@@ -22,7 +22,7 @@ export interface SelectionModalProps {
 }
 
 export function SelectionModal({
-    file,
+    files,
     message,
     ...props
 }: SelectionModalProps) {
@@ -35,7 +35,7 @@ export function SelectionModal({
             subtitle="Select your preferred file hosting service: "
             confirmText="Upload"
             cancelText="Cancel"
-            onConfirm={async () => { await uploadToUguu(file, message); }}
+            onConfirm={async () => { await uploadToUguu(files, message); }}
             onCancel={() => { }}
         >
             {SERVICES.map(service => (

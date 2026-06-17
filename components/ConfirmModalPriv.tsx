@@ -15,7 +15,7 @@ import { reupload } from "../utils/reupload";
 import { SelectionModal } from "./SelectionModal";
 
 export interface ConfirmModalPrivInt {
-    file: File;
+    files: File[];
     message: string;
 
     transitionState: number;
@@ -23,7 +23,7 @@ export interface ConfirmModalPrivInt {
 }
 
 export function ConfirmModalPriv({
-    file,
+    files,
     message,
     ...props
 }: ConfirmModalPrivInt) {
@@ -39,14 +39,14 @@ export function ConfirmModalPriv({
             onConfirm={() => {
                 openModal(props => (
                     <SelectionModal
-                        file={file}
+                        files={files}
                         message={message}
                         {...props}
                     />
                 ));
             }
             }
-            onCancel={() => { reupload(file); }}
+            onCancel={() => { reupload(files); }}
             actionBarInput={
                 <Checkbox
                     value={selectedAuto}

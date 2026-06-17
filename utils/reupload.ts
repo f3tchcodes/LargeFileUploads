@@ -11,44 +11,71 @@ import {
     PendingReplyStore,
     RestAPI,
     SelectedChannelStore,
-    showToast,
-    SnowflakeUtils,
-    Toasts,
+    SnowflakeUtils
 } from "@webpack/common";
 
 import { CloudUpload } from "..";
 
-export async function reupload(file: File) {
+export interface attachments {
+    id: string;
+    filename: string;
+    uploaded_filename: string;
+}
+
+export async function reupload(files: File[]) {
     const channelId = SelectedChannelStore.getChannelId();
     const reply = PendingReplyStore.getPendingReply(channelId);
-    const upload = new CloudUpload({
-        file,
-        isThumbnail: true,
-        platform: CloudUploadPlatform.WEB
-    }, channelId);
 
-    upload.on("complete", () => {
-        RestAPI.post({
-            url: Constants.Endpoints.MESSAGES(channelId),
-            body: {
-                channel_id: channelId,
-                content: "",
-                nonce: SnowflakeUtils.fromTimestamp(Date.now()),
-                sticker_ids: [],
-                type: 0,
-                attachments: [{
-                    id: "0",
+    const uploads = files.map(file => {
+        return new CloudUpload({
+            file,
+            isThumbnail: true,
+            platform: CloudUploadPlatform.WEB
+        }, channelId);
+    });
+
+    const attachments: attachments[] = [];
+
+    await new Promise<void>((resolve, reject) => {
+        let completed = 0;
+        let failed = false;
+
+        uploads.forEach(upload => {
+            upload.on("complete", () => {
+                attachments.push({
+                    id: String(attachments.length),
                     filename: upload.filename,
-                    uploaded_filename: upload.uploadedFilename,
-                }],
-                message_reference: reply
-                    ? MessageActions.getSendMessageOptionsForReply(reply)?.messageReference
-                    : null,
-            }
+                    uploaded_filename: upload.uploadedFilename
+                });
+
+                completed++;
+
+                if (completed === uploads.length && !failed) {
+                    resolve();
+                }
+            });
+
+            upload.on("error", () => {
+                if (!failed) {
+                    failed = true;
+                    reject(new Error("one or more uploads failed"));
+                }
+            });
         });
     });
 
-    upload.on("error", () => showToast("Failed to upload file", Toasts.Type.FAILURE));
-
-    upload.upload();
+    RestAPI.post({
+        url: Constants.Endpoints.MESSAGES(channelId),
+        body: {
+            channel_id: channelId,
+            content: "",
+            nonce: SnowflakeUtils.fromTimestamp(Date.now()),
+            sticker_ids: [],
+            type: 0,
+            attachments,
+            message_reference: reply
+                ? MessageActions.getSendMessageOptionsForReply(reply)?.messageReference
+                : null,
+        }
+    });
 }

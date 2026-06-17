@@ -31,6 +31,17 @@ const UploadActions = findByPropsLazy("setUploads") as UploadActions;
 const getDraft = (channelId: string) => DraftStore.getDraft(channelId, DraftType.ChannelMessage);
 let draftMessage = "";
 
+// convert uploads object to files because we can't pass in files from other code
+// (or maybe we can and i just can't figure out lmao someone help i'm bad)
+const toFile = (u: any): File => {
+    if (u.file instanceof File) return u.file;
+
+    const blob = u.file ?? u.blob ?? u;
+    return new File([blob], u.filename ?? "file", {
+        type: u.mimeType ?? blob?.type
+    });
+};
+
 export const UploadIcon: IconComponent = ({ width = 20, height = 20, className }) => (
     <svg
         viewBox="0 0 24 24"
@@ -58,16 +69,19 @@ export const UploadButton: ChatBarButtonFactory = ({ isAnyChat, isEmpty, type: {
     const hasAttachments = uploads.length > 0;
 
     if (!hasAttachments) return null;
-    draftMessage = draft;
+    draftMessage = getDraft(channelId);
 
     return (
         <ChatBarButton
             tooltip="Send via external upload!"
             onClick={() => {
+                const message = getDraft(channelId);
+                const files = uploads.map(toFile);
+
                 openModal(props => (
                     <SelectionModal
-                        file={uploads[0]?.item.file}
-                        message={draftMessage}
+                        files={files}
+                        message={message}
                         {...props}
                     />
                 ));

@@ -13,11 +13,11 @@ import { openConfirmModal } from "./utils/modals";
 export const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
 export const Native = VencordNative.pluginHelpers.LargeFileUploads as PluginNative<typeof import("./native")>;
 
-async function stopUpload(upload: TCloudUpload) {
-    const { file } = upload.item;
-    console.log(`my content: ${draftMessage}`);
-    upload.cancel();
-    openConfirmModal(file, draftMessage);
+async function stopUploads(uploads: TCloudUpload[]) {
+    console.log(uploads);
+    const files = uploads.map(upload => upload.item.file);
+    for (let i = 0; i < uploads.length; i++) { uploads[i].cancel(); }
+    openConfirmModal(files, draftMessage);
 }
 
 export default definePlugin({
@@ -30,12 +30,12 @@ export default definePlugin({
             replacement: [
                 {
                     match: /async uploadFiles\((\i)\){/,
-                    replace: "$&$1.forEach($self.stopUpload);"
+                    replace: "$&$self.stopUploads($1);"
                 }
             ],
         }
     ],
-    stopUpload: stopUpload,
+    stopUploads: stopUploads,
     chatBarButton: {
         icon: UploadIcon,
         render: UploadButton
