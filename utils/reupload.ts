@@ -22,8 +22,7 @@ export interface Attachments {
     uploaded_filename: string;
 }
 
-export async function reupload(files: File[]) {
-    console.log("reupload called");
+export async function reupload(files: File[], message: string) {
     const channelId = SelectedChannelStore.getChannelId();
     const reply = PendingReplyStore.getPendingReply(channelId);
 
@@ -71,7 +70,7 @@ export async function reupload(files: File[]) {
         url: Constants.Endpoints.MESSAGES(channelId),
         body: {
             channel_id: channelId,
-            content: "",
+            content: message,
             nonce: SnowflakeUtils.fromTimestamp(Date.now()),
             sticker_ids: [],
             type: 0,
