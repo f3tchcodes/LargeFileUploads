@@ -16,7 +16,7 @@ import {
 
 import { CloudUpload } from "..";
 
-export interface attachments {
+export interface Attachments {
     id: string;
     filename: string;
     uploaded_filename: string;
@@ -34,7 +34,7 @@ export async function reupload(files: File[]) {
         }, channelId);
     });
 
-    const attachments: attachments[] = [];
+    const attachments: Attachments[] = [];
 
     await new Promise<void>((resolve, reject) => {
         let completed = 0;
