@@ -64,7 +64,7 @@ export async function reupload(files: File[]) {
         });
     });
 
-    RestAPI.post({
+    await RestAPI.post({
         url: Constants.Endpoints.MESSAGES(channelId),
         body: {
             channel_id: channelId,

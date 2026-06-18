@@ -46,7 +46,7 @@ export function ConfirmModalPriv({
                 ));
             }
             }
-            onCancel={() => { reupload(files); }}
+            onCancel={async () => { await reupload(files); }}
             actionBarInput={
                 <Checkbox
                     value={selectedAuto}
