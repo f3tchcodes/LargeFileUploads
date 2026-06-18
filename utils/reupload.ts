@@ -23,6 +23,7 @@ export interface Attachments {
 }
 
 export async function reupload(files: File[]) {
+    console.log("reupload called");
     const channelId = SelectedChannelStore.getChannelId();
     const reply = PendingReplyStore.getPendingReply(channelId);
 
@@ -61,6 +62,8 @@ export async function reupload(files: File[]) {
                     reject(new Error("one or more uploads failed"));
                 }
             });
+
+            upload.upload();
         });
     });
 
