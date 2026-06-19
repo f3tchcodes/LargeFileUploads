@@ -49,7 +49,7 @@ export function SelectionModal({
                 >
                     <span><strong>{service.name}</strong></span>
                     <br />
-                    <span><strong>Max size: </strong>{service.maxSizeMb}</span>
+                    <span><strong>Max size: </strong>{service.maxSize}</span>
                     <br />
                     <span><strong>Expiry time: </strong>{service.expiryTime}</span>
                     <br />

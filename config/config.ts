@@ -7,7 +7,7 @@
 export interface UploadService {
     id: string;
     name: string;
-    maxSizeMb: string;
+    maxSize: string;
     expiryTime: string;
     embed: string;
     bestFor: string;
@@ -17,7 +17,7 @@ export const SERVICES: UploadService[] = [
     {
         id: "uguu",
         name: "Uguu",
-        maxSizeMb: "128mb",
+        maxSize: "128mb",
         expiryTime: "3 hours",
         embed: "Available",
         bestFor: "Temporary media sharing."
