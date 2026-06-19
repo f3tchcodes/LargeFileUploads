@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { UploadData } from "../native";
+
 export interface UploadDataResponse {
     success: boolean;
     files: [
@@ -15,12 +17,6 @@ export interface UploadDataResponse {
             dupe: boolean;
         }
     ];
-}
-
-export interface UploadData {
-    name: string;
-    type: string;
-    data: Uint8Array;
 }
 
 export async function uguuUpload(upload: UploadData): Promise<UploadDataResponse> {

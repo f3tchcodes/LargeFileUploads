@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { uguuUpload, type UploadData } from "./services/uguu";
+import { uguuUpload } from "./services/uguu";
+
+export interface UploadData {
+    name: string;
+    type: string;
+    data: Uint8Array;
+}
 
 export async function fetchNativeUguu(_event: unknown, upload: UploadData) {
     return await uguuUpload(upload);
