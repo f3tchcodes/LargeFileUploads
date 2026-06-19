@@ -11,6 +11,8 @@ import {
     React
 } from "@webpack/common";
 
+import { settings } from "..";
+import { automaticSelection } from "../utils/automaticSelection";
 import { reupload } from "../utils/reupload";
 import { SelectionModal } from "./SelectionModal";
 
@@ -27,7 +29,7 @@ export function ConfirmModalPriv({
     message,
     ...props
 }: ConfirmModalPrivInt) {
-    const [selectedAuto, setSelectedAuto] = React.useState(false);
+    const [selectedAuto, setSelectedAuto] = React.useState(settings.store.automaticSelection);
 
     return (
         <ConfirmModal
@@ -36,7 +38,11 @@ export function ConfirmModalPriv({
             subtitle="The file is larger than 10mb, would you like me to automatically upload it to a public hosting service?"
             confirmText="Continue"
             cancelText="I'm good"
-            onConfirm={() => {
+            onConfirm={async () => {
+                if (settings.store.automaticSelection) {
+                    return await automaticSelection(files, message);
+                }
+
                 openModal(props => (
                     <SelectionModal
                         files={files}
@@ -52,6 +58,7 @@ export function ConfirmModalPriv({
                     value={selectedAuto}
                     onChange={() => {
                         setSelectedAuto(!selectedAuto);
+                        settings.store.automaticSelection = !settings.store.automaticSelection;
                     }}
                 >
                     Automatic selection
