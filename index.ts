@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import definePlugin, { PluginNative } from "@utils/types";
+import { definePluginSettings } from "@api/Settings";
+import definePlugin, { OptionType, PluginNative } from "@utils/types";
 import { CloudUpload as TCloudUpload } from "@vencord/discord-types";
 import { findLazy } from "@webpack";
 
@@ -20,10 +21,20 @@ async function stopUploads(uploads: TCloudUpload[]) {
     openConfirmModal(files, draftMessage);
 }
 
+export const settings = definePluginSettings({
+    automaticSelection: {
+        type: OptionType.BOOLEAN,
+        displayName: "Automatic selection",
+        description: "Automatically decides which hosting service is best suitable for your filetype and size.",
+        default: false
+    }
+});
+
 export default definePlugin({
     name: "LargeFileUploads",
     description: "Automatically uploads oversized files to a hosting service and sends a link instead.",
     authors: [{ name: "f3tch", id: 1016388460929626174n }],
+    settings,
     patches: [
         {
             find: "async uploadFiles(",
