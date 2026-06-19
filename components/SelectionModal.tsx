@@ -7,11 +7,13 @@
 import {
     Checkbox,
     ConfirmModal,
-    React
+    React,
+    showToast,
+    Toasts
 } from "@webpack/common";
 
 import { SERVICES } from "../config/config";
-import { uploadToCatbox } from "../utils/functions";
+import { uploadToCatbox, uploadToUguu } from "../utils/functions";
 
 export interface SelectionModalProps {
     files: File[];
@@ -26,7 +28,7 @@ export function SelectionModal({
     message,
     ...props
 }: SelectionModalProps) {
-    const [selectedService, setSelectedService] = React.useState("uguu");
+    const [selectedService, setSelectedService] = React.useState("catbox");
 
     return (
         <ConfirmModal
@@ -35,7 +37,15 @@ export function SelectionModal({
             subtitle="Select your preferred file hosting service: "
             confirmText="Upload"
             cancelText="Cancel"
-            onConfirm={async () => { await uploadToCatbox(files, message); }}
+            onConfirm={async () => {
+                if (selectedService === "uguu") {
+                    await uploadToUguu(files, message);
+                } else if (selectedService === "catbox") {
+                    await uploadToCatbox(files, message);
+                } else {
+                    showToast("Correct service not selected", Toasts.Type.FAILURE);
+                }
+            }}
             onCancel={() => { }}
         >
             {SERVICES.map(service => (
