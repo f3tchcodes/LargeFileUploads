@@ -24,9 +24,15 @@ async function stopUploads(uploads: TCloudUpload[]) {
 export const settings = definePluginSettings({
     automaticSelection: {
         type: OptionType.BOOLEAN,
-        displayName: "Automatic selection",
+        displayName: "Automatic Selection",
         description: "Automatically decides which hosting service is best suitable for your filetype and size.",
         default: false
+    },
+    customZiplineServer: {
+        type: OptionType.STRING,
+        displayName: "Custom Zipline Server",
+        description: "Your custom Zipline website for hosting files on your private server (default option on automatic selection).",
+        placeholder: "https://myziplinewebsite.com/api/upload"
     }
 });
 
