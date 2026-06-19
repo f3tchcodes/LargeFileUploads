@@ -5,6 +5,7 @@
  */
 
 import { catboxUpload } from "./services/catbox";
+import { litterboxUpload } from "./services/litterbox";
 import { uguuUpload } from "./services/uguu";
 
 export interface UploadData {
@@ -19,4 +20,8 @@ export async function fetchNativeUguu(_event: unknown, upload: UploadData) {
 
 export async function fetchNativeCatbox(_event: unknown, upload: UploadData) {
     return await catboxUpload(upload);
+}
+
+export async function fetchNativeLitterbox(_event: unknown, upload: UploadData) {
+    return await litterboxUpload(upload);
 }

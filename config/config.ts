@@ -17,15 +17,23 @@ export const SERVICES: UploadService[] = [
     {
         id: "catbox",
         name: "Catbox",
-        maxSize: "200mb",
-        expiryTime: "Not expired",
+        maxSize: "200MB",
+        expiryTime: "No expiry",
         embed: "Available",
         bestFor: "Permanent media sharing."
     },
     {
+        id: "litterbox",
+        name: "Litterbox",
+        maxSize: "1GB",
+        expiryTime: "3 days",
+        embed: "Available",
+        bestFor: "Temporary file sharing."
+    },
+    {
         id: "uguu",
         name: "Uguu",
-        maxSize: "128mb",
+        maxSize: "128MB",
         expiryTime: "3 hours",
         embed: "Available",
         bestFor: "Temporary media sharing."
