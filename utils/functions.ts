@@ -45,3 +45,40 @@ export async function uploadToUguu(files: File[], message: string) {
         .join(" ");
     return await sendMsg(channelID, `${message} ${uploadedFiles}`);
 }
+
+export async function uploadToCatbox(files: File[], message: string) {
+    const channelID = getChannelID();
+    console.log(Native);
+
+    const results = await Promise.all(
+        files.map(async file => {
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const res = await Native.fetchNativeCatbox({
+                    name: file.name,
+                    type: file.type,
+                    data: new Uint8Array(arrayBuffer),
+                });
+
+                if (typeof res !== "string" || !res.startsWith("https://files.catbox.moe/")) {
+                    showToast("Upload failed!", Toasts.Type.FAILURE);
+                    return null;
+                }
+
+                showToast("Successfully uploaded!", Toasts.Type.SUCCESS);
+
+                return res;
+            } catch (err) {
+                showToast("Unknown error occured. Upload failed!", Toasts.Type.FAILURE);
+                console.log(err);
+                return null;
+            }
+        })
+    );
+
+    const uploadedFiles = results
+        .filter(f => f !== null)
+        .map(url => `[${url.split("/").pop()}](${url})`)
+        .join(" ");
+    return await sendMsg(channelID, `${message} ${uploadedFiles}`);
+}

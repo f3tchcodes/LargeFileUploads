@@ -15,6 +15,14 @@ export interface UploadService {
 
 export const SERVICES: UploadService[] = [
     {
+        id: "catbox",
+        name: "Catbox",
+        maxSize: "200mb",
+        expiryTime: "Not expired",
+        embed: "Available",
+        bestFor: "Permanent media sharing."
+    },
+    {
         id: "uguu",
         name: "Uguu",
         maxSize: "128mb",

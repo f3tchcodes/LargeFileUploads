@@ -11,7 +11,7 @@ import {
 } from "@webpack/common";
 
 import { SERVICES } from "../config/config";
-import { uploadToUguu } from "../utils/functions";
+import { uploadToCatbox } from "../utils/functions";
 
 export interface SelectionModalProps {
     files: File[];
@@ -35,7 +35,7 @@ export function SelectionModal({
             subtitle="Select your preferred file hosting service: "
             confirmText="Upload"
             cancelText="Cancel"
-            onConfirm={async () => { await uploadToUguu(files, message); }}
+            onConfirm={async () => { await uploadToCatbox(files, message); }}
             onCancel={() => { }}
         >
             {SERVICES.map(service => (
