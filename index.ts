@@ -16,20 +16,6 @@ import { getChannelID } from "./utils/sendMessage";
 export const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
 export const Native = VencordNative.pluginHelpers.LargeFileUploads as PluginNative<typeof import("./native")>;
 
-export const getUserMaxUploadLimit = () => {
-    const user = UserStore.getCurrentUser();
-    const nitroTier = user?.premiumType;
-
-    switch (nitroTier) {
-        case 2:
-            return 524288000;
-        case 1:
-            return 52428800;
-        default:
-            return 10485760;
-    }
-};
-
 async function stopUploads(uploads: TCloudUpload[]) {
     let stopToggle = false;
     for (let i = 0; i < uploads.length; i++) {
@@ -63,6 +49,20 @@ async function stopUploads(uploads: TCloudUpload[]) {
     for (let i = 0; i < uploads.length; i++) { uploads[i].cancel(); }
     settings.store.warning ? confirmWarningModal(files, draftMessage) : selectionModal(files, draftMessage);
 }
+
+export const getUserMaxUploadLimit = () => {
+    const user = UserStore.getCurrentUser();
+    const nitroTier = user?.premiumType;
+
+    switch (nitroTier) {
+        case 2:
+            return 524288000;
+        case 1:
+            return 52428800;
+        default:
+            return 10485760;
+    }
+};
 
 export const settings = definePluginSettings({
     warning: {
