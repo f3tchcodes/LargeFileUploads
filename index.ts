@@ -51,19 +51,10 @@ export default definePlugin({
                     replace: "$&$self.stopUploads($1);"
                 }
             ],
-        },
-        {
-            find: "\"SENDABLE\"",
-            replacement: [
-                {
-                    match: /\i\.available\?/,
-                    replace: "console.log($1)?"
-                }
-            ]
         }
     ],
     start() {
-        const handler = (e: DragEvent) => {
+        const dragHandler = (e: DragEvent) => {
             if (!e.dataTransfer?.files?.length) return;
 
             e.preventDefault();
@@ -80,7 +71,27 @@ export default definePlugin({
             });
         };
 
-        document.addEventListener("drop", handler, true);
+        const uploadBtnHandler = (e: Event) => {
+            const target = e.target as HTMLInputElement;
+            if (!target || !target.files || target.files.length === 0) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const channelId = getChannelID();
+            const files = Array.from(target.files);
+            UploadManager.addFiles({
+                channelId,
+                draftType: DraftType.ChannelMessage,
+                files: files.map(file => ({ file, platform: 1 })),
+                showLargeMessageDialog: false
+            });
+
+            target.value = "";
+        };
+
+        document.addEventListener("drop", dragHandler, true);
+        document.addEventListener("change", uploadBtnHandler, true);
     },
     stopUploads: stopUploads,
     chatBarButton: {
