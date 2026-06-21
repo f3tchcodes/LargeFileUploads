@@ -102,6 +102,7 @@ export default definePlugin({
     name: "LargeFileUploads",
     description: "Automatically uploads oversized files to a hosting service and sends a link instead.",
     authors: [{ name: "f3tch", id: 1016388460929626174n }],
+    requiresRestart: true,
     settings,
     patches: [
         {
@@ -115,6 +116,7 @@ export default definePlugin({
         }
     ],
     start() {
+        // bypassing file size modal popup when dragging the file in
         const dragHandler = (e: DragEvent) => {
             if (!e.dataTransfer?.files?.length) return;
 
@@ -152,6 +154,7 @@ export default definePlugin({
             bypassToggle = false;
         };
 
+        // bypassing file size modal popup when uploading the file
         const uploadBtnHandler = (e: Event) => {
             const target = e.target as HTMLInputElement;
             if (!target || !target.files || target.files.length === 0) return;
@@ -191,8 +194,47 @@ export default definePlugin({
             target.value = "";
         };
 
+        // bypassing file size modal popup when pasting the file
+        const clipboardHandler = (e: ClipboardEvent) => {
+            if (!e.clipboardData?.files?.length) return;
+
+            let bypassToggle = false;
+
+            for (let i = 0; i < e.clipboardData?.files?.length; i++) {
+                if (e.clipboardData?.files[i]?.size > getUserMaxUploadLimit()) { bypassToggle = true; }
+            }
+
+            if (!bypassToggle) return;
+
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            const channelId = getChannelID();
+
+            const files = Array.from(e.clipboardData?.files).map(file => {
+                (file as any).__originalSize = file?.size;
+
+                Object.defineProperty(file, "size", {
+                    get() { return 1; },
+                    configurable: true
+                });
+
+                return { file, platform: 1 };
+            });
+
+            UploadManager.addFiles({
+                channelId,
+                draftType: DraftType.ChannelMessage,
+                files: files,
+                showLargeMessageDialog: false
+            });
+
+            bypassToggle = false;
+        };
+
         document.addEventListener("drop", dragHandler, true);
         document.addEventListener("change", uploadBtnHandler, true);
+        document.addEventListener("paste", clipboardHandler, true);
     },
     stopUploads: stopUploads,
     chatBarButton: {
