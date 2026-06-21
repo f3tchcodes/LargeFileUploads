@@ -23,7 +23,7 @@ async function stopUploads(uploads: TCloudUpload[]) {
         const realSize = file.__originalSize !== undefined ? file.__originalSize : file.size;
         console.log(realSize);
 
-        if (realSize > 10000) { stopToggle = true; }
+        if (realSize > getUserMaxUploadLimit()) { stopToggle = true; }
     }
     if (!stopToggle) return;
 
@@ -114,7 +114,7 @@ export default definePlugin({
             let bypassToggle = false;
 
             for (let i = 0; i < e.dataTransfer.files.length; i++) {
-                if (e.dataTransfer.files[i].size > 10000) { bypassToggle = true; }
+                if (e.dataTransfer.files[i].size > getUserMaxUploadLimit()) { bypassToggle = true; }
             }
 
             if (!bypassToggle) return;
@@ -152,7 +152,7 @@ export default definePlugin({
             let bypassToggle = false;
 
             for (let i = 0; i < target.files.length; i++) {
-                if (target.files[i].size > 10000) { bypassToggle = true; }
+                if (target.files[i].size > getUserMaxUploadLimit()) { bypassToggle = true; }
             }
 
             if (!bypassToggle) return;
