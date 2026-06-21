@@ -8,14 +8,15 @@ import { definePluginSettings } from "@api/Settings";
 import definePlugin, { OptionType, PluginNative } from "@utils/types";
 import { CloudUpload as TCloudUpload } from "@vencord/discord-types";
 import { findLazy } from "@webpack";
+import { DraftType, UploadManager } from "@webpack/common";
 
 import { draftMessage, UploadButton, UploadIcon } from "./components/UploadButton";
 import { openConfirmModal } from "./utils/modals";
+import { getChannelID } from "./utils/sendMessage";
 export const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
 export const Native = VencordNative.pluginHelpers.LargeFileUploads as PluginNative<typeof import("./native")>;
 
 async function stopUploads(uploads: TCloudUpload[]) {
-    console.log(uploads);
     const files = uploads.map(upload => upload.item.file);
     for (let i = 0; i < uploads.length; i++) { uploads[i].cancel(); }
     openConfirmModal(files, draftMessage);
@@ -50,8 +51,37 @@ export default definePlugin({
                     replace: "$&$self.stopUploads($1);"
                 }
             ],
+        },
+        {
+            find: "\"SENDABLE\"",
+            replacement: [
+                {
+                    match: /\i\.available\?/,
+                    replace: "console.log($1)?"
+                }
+            ]
         }
     ],
+    start() {
+        const handler = (e: DragEvent) => {
+            if (!e.dataTransfer?.files?.length) return;
+
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            const channelId = getChannelID();
+
+            const files = Array.from(e.dataTransfer.files);
+            UploadManager.addFiles({
+                channelId,
+                draftType: DraftType.ChannelMessage,
+                files: files.map(file => ({ file, platform: 1 })),
+                showLargeMessageDialog: false
+            });
+        };
+
+        document.addEventListener("drop", handler, true);
+    },
     stopUploads: stopUploads,
     chatBarButton: {
         icon: UploadIcon,
