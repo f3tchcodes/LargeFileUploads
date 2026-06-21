@@ -21,18 +21,7 @@ export interface ZiplineUploadResponse {
 export async function ziplineUpload(upload: UploadData, ziplineServer: string, ziplineToken: string): Promise<ZiplineUploadResponse> {
     const ziplineServerClean = ziplineServer.endsWith("/") ? ziplineServer.slice(0, -1) : ziplineServer;
 
-    // authorizing with /api/user
-    const res = await fetch(`${ziplineServerClean}/api/user`, {
-        method: "GET",
-        headers: {
-            Authorization: ziplineToken
-        }
-    });
-
-    if (!res.ok) return await res.json();
-
-    // verified user
-    // move to /api/upload
+    // verifying the user and sending uploads
     const bytes = new Uint8Array(upload.data);
 
     const blob = new Blob([bytes], {
@@ -42,7 +31,7 @@ export async function ziplineUpload(upload: UploadData, ziplineServer: string, z
     const form = new FormData();
     form.append("files", blob, upload.name);
 
-    const resUpload = await fetch(`${ziplineServerClean}/api/upload`, {
+    const res = await fetch(`${ziplineServerClean}/api/upload`, {
         method: "POST",
         headers: {
             Authorization: ziplineToken
@@ -50,5 +39,8 @@ export async function ziplineUpload(upload: UploadData, ziplineServer: string, z
         body: form,
     });
 
-    return await resUpload.json();
+    // if an error occurs, probably user is not authorized and the token is wrong
+    if (!res.ok) return await res.json();
+
+    return await res.json();
 }
