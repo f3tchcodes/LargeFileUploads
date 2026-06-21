@@ -12,7 +12,7 @@ import {
     Toasts
 } from "@webpack/common";
 
-import { SERVICES } from "../config/config";
+import { SERVICES } from "../config/services";
 import { uploadToCatbox, uploadToLitterbox, uploadToUguu } from "../utils/functions";
 
 export interface SelectionModalProps {
