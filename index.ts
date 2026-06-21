@@ -11,7 +11,7 @@ import { findLazy } from "@webpack";
 import { DraftType, UploadManager, UserStore } from "@webpack/common";
 
 import { draftMessage, UploadButton, UploadIcon } from "./components/UploadButton";
-import { openConfirmModal } from "./utils/modals";
+import { openConfirmModal, selectionModal } from "./utils/modals";
 import { getChannelID } from "./utils/sendMessage";
 export const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
 export const Native = VencordNative.pluginHelpers.LargeFileUploads as PluginNative<typeof import("./native")>;
@@ -60,12 +60,17 @@ async function stopUploads(uploads: TCloudUpload[]) {
         return cleanFile;
     });
 
-    console.log(files);
     for (let i = 0; i < uploads.length; i++) { uploads[i].cancel(); }
-    openConfirmModal(files, draftMessage);
+    settings.store.warning ? openConfirmModal(files, draftMessage) : selectionModal(files, draftMessage);
 }
 
 export const settings = definePluginSettings({
+    warning: {
+        type: OptionType.BOOLEAN,
+        displayName: "Warning",
+        description: "Shows a warning before uploading to external hosting.",
+        default: true
+    },
     automaticSelection: {
         type: OptionType.BOOLEAN,
         displayName: "Automatic Selection",
