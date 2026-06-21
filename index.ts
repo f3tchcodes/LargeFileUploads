@@ -80,7 +80,7 @@ export const settings = definePluginSettings({
     customZiplineServer: {
         type: OptionType.STRING,
         displayName: "Zipline Server",
-        description: "Your custom Zipline server for hosting files privately.",
+        description: "Your custom Zipline server's base URL for hosting files privately.",
         placeholder: "https://zipline.example.com/"
     },
     ziplineToken: {
