@@ -29,12 +29,16 @@ export async function automaticSelection(files: File[], message: string) {
 
     switch (selectedService) {
         case "zipline":
+            showToast("Uploading to Zipline...", Toasts.Type.SUCCESS);
             return await uploadToZipline(files, message);
         case "catbox":
+            showToast("Uploading to Catbox...", Toasts.Type.SUCCESS);
             return await uploadToCatbox(files, message);
         case "litterbox":
+            showToast("Uploading to Litterbox...", Toasts.Type.SUCCESS);
             return await uploadToLitterbox(files, message);
         case "uguu":
+            showToast("Uploading to Uguu...", Toasts.Type.SUCCESS);
             return await uploadToUguu(files, message);
         default:
             showToast("Services for one or more of your files are not available!\nTry again later or add your own hosting service.", Toasts.Type.FAILURE);
