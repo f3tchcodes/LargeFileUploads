@@ -77,7 +77,7 @@ export const settings = definePluginSettings({
         description: "Automatically decides which hosting service is best suitable for your filetype and size (defaults to private Zipline instance).",
         default: false
     },
-    customZiplineServer: {
+    ziplineServer: {
         type: OptionType.STRING,
         displayName: "Zipline Server",
         description: "Your custom Zipline server's base URL for hosting files privately.",

@@ -18,7 +18,7 @@ export const SERVICES: UploadService[] = [
         id: "catbox",
         name: "Catbox",
         maxSize: "200MB",
-        expiryTime: "No expiry",
+        expiryTime: "None",
         embed: "Available",
         bestFor: "Permanent media sharing."
     },
@@ -37,5 +37,13 @@ export const SERVICES: UploadService[] = [
         expiryTime: "3 hours",
         embed: "Available",
         bestFor: "Temporary media sharing."
+    },
+    {
+        id: "zipline",
+        name: "Zipline",
+        maxSize: "Custom",
+        expiryTime: "Custom",
+        embed: "Available",
+        bestFor: "Private file hosting"
     }
 ];

@@ -7,6 +7,7 @@
 import { catboxUpload } from "./services/catbox";
 import { litterboxUpload } from "./services/litterbox";
 import { uguuUpload } from "./services/uguu";
+import { ziplineUpload } from "./services/zipline";
 
 export interface UploadData {
     name: string;
@@ -24,4 +25,13 @@ export async function fetchNativeCatbox(_event: unknown, upload: UploadData) {
 
 export async function fetchNativeLitterbox(_event: unknown, upload: UploadData) {
     return await litterboxUpload(upload);
+}
+
+export async function fetchNativeZipline(
+    _event: unknown,
+    upload: UploadData,
+    ziplineServer: string,
+    ziplineToken: string
+) {
+    return await ziplineUpload(upload, ziplineServer, ziplineToken);
 }

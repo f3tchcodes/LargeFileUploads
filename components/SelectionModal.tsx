@@ -13,7 +13,7 @@ import {
 } from "@webpack/common";
 
 import { SERVICES } from "../config/services";
-import { uploadToCatbox, uploadToLitterbox, uploadToUguu } from "../utils/functions";
+import { uploadToCatbox, uploadToLitterbox, uploadToUguu, uploadToZipline } from "../utils/functions";
 
 export interface SelectionModalProps {
     files: File[];
@@ -44,6 +44,8 @@ export function SelectionModal({
                     await uploadToCatbox(files, message);
                 } else if (selectedService === "litterbox") {
                     await uploadToLitterbox(files, message);
+                } else if (selectedService === "zipline") {
+                    await uploadToZipline(files, message);
                 } else {
                     showToast("Correct service not selected", Toasts.Type.FAILURE);
                 }
