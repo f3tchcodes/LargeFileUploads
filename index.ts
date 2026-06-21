@@ -11,6 +11,7 @@ import { findLazy } from "@webpack";
 import { DraftType, UploadManager, UserStore } from "@webpack/common";
 
 import { draftMessage, UploadButton, UploadIcon } from "./components/UploadButton";
+import { automaticSelection } from "./utils/automaticSelection";
 import { confirmWarningModal, selectionModal } from "./utils/modals";
 import { getChannelID } from "./utils/sendMessage";
 export const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
@@ -47,7 +48,13 @@ async function stopUploads(uploads: TCloudUpload[]) {
     });
 
     for (let i = 0; i < uploads.length; i++) { uploads[i].cancel(); }
-    settings.store.warning ? confirmWarningModal(files, draftMessage) : selectionModal(files, draftMessage);
+
+    if (!settings.store.warning) {
+        if (settings.store.automaticSelection) return automaticSelection(files, draftMessage);
+        return selectionModal(files, draftMessage);
+    } else {
+        return confirmWarningModal(files, draftMessage);
+    }
 }
 
 export const getUserMaxUploadLimit = () => {
