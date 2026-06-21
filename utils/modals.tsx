@@ -9,12 +9,12 @@ import {
     React
 } from "@webpack/common";
 
-import { ConfirmModalPriv } from "../components/ConfirmModalPriv";
+import { ConfirmWarningModal } from "../components/ConfirmWarningModal";
 import { SelectionModal } from "../components/SelectionModal";
 
-export function openConfirmModal(file: File[], message: string) {
+export function confirmWarningModal(file: File[], message: string) {
     openModal(props => (
-        <ConfirmModalPriv
+        <ConfirmWarningModal
             {...props}
             files={file}
             message={message}

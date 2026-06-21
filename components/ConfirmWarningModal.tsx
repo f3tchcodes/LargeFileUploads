@@ -16,7 +16,7 @@ import { automaticSelection } from "../utils/automaticSelection";
 import { reupload } from "../utils/reupload";
 import { SelectionModal } from "./SelectionModal";
 
-export interface ConfirmModalPrivInt {
+export interface ConfirmWarningModal {
     files: File[];
     message: string;
 
@@ -24,11 +24,11 @@ export interface ConfirmModalPrivInt {
     onClose: () => void;
 }
 
-export function ConfirmModalPriv({
+export function ConfirmWarningModal({
     files,
     message,
     ...props
-}: ConfirmModalPrivInt) {
+}: ConfirmWarningModal) {
     const [selectedAuto, setSelectedAuto] = React.useState(settings.store.automaticSelection);
 
     return (
