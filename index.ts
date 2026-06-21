@@ -33,10 +33,34 @@ export const getUserMaxUploadLimit = () => {
 async function stopUploads(uploads: TCloudUpload[]) {
     let stopToggle = false;
     for (let i = 0; i < uploads.length; i++) {
-        if (uploads[i].item.file.size > getUserMaxUploadLimit()) { stopToggle = true; }
+        const file = uploads[i].item.file as any;
+        const realSize = file.__originalSize !== undefined ? file.__originalSize : file.size;
+        console.log(realSize);
+
+        if (realSize > 10000) { stopToggle = true; }
     }
     if (!stopToggle) return;
-    const files = uploads.map(upload => upload.item.file);
+
+    const files = uploads.map(upload => {
+        const nativeFile = upload.item.file as any;
+        const realSize = nativeFile.__originalSize !== undefined ? nativeFile.__originalSize : nativeFile.size;
+
+        const cleanFile = new File([nativeFile], nativeFile.name, {
+            type: nativeFile.type,
+            lastModified: nativeFile.lastModified
+        });
+
+        Object.defineProperty(cleanFile, "size", {
+            value: realSize,
+            writable: false,
+            enumerable: true,
+            configurable: true
+        });
+
+        return cleanFile;
+    });
+
+    console.log(files);
     for (let i = 0; i < uploads.length; i++) { uploads[i].cancel(); }
     openConfirmModal(files, draftMessage);
 }
@@ -75,12 +99,13 @@ export default definePlugin({
     start() {
         const dragHandler = (e: DragEvent) => {
             if (!e.dataTransfer?.files?.length) return;
-            const files = Array.from(e.dataTransfer.files);
 
             let bypassToggle = false;
-            for (let i = 0; i < files.length; i++) {
-                if (files[i].size > getUserMaxUploadLimit()) { bypassToggle = true; }
+
+            for (let i = 0; i < e.dataTransfer.files.length; i++) {
+                if (e.dataTransfer.files[i].size > 10000) { bypassToggle = true; }
             }
+
             if (!bypassToggle) return;
 
             e.preventDefault();
@@ -88,10 +113,21 @@ export default definePlugin({
 
             const channelId = getChannelID();
 
+            const files = Array.from(e.dataTransfer.files).map(file => {
+                (file as any).__originalSize = file.size;
+
+                Object.defineProperty(file, "size", {
+                    get() { return 1; },
+                    configurable: true
+                });
+
+                return { file, platform: 1 };
+            });
+
             UploadManager.addFiles({
                 channelId,
                 draftType: DraftType.ChannelMessage,
-                files: files.map(file => ({ file, platform: 1 })),
+                files: files,
                 showLargeMessageDialog: false
             });
 
@@ -103,20 +139,33 @@ export default definePlugin({
             if (!target || !target.files || target.files.length === 0) return;
 
             let bypassToggle = false;
+
             for (let i = 0; i < target.files.length; i++) {
-                if (target.files[i].size > getUserMaxUploadLimit()) { bypassToggle = true; }
+                if (target.files[i].size > 10000) { bypassToggle = true; }
             }
+
             if (!bypassToggle) return;
 
             e.preventDefault();
             e.stopPropagation();
 
             const channelId = getChannelID();
-            const files = Array.from(target.files);
+
+            const files = Array.from(target.files).map(file => {
+                (file as any).__originalSize = file.size;
+
+                Object.defineProperty(file, "size", {
+                    value: 1,
+                    writable: false
+                });
+
+                return { file, platform: 1 };
+            });
+
             UploadManager.addFiles({
                 channelId,
                 draftType: DraftType.ChannelMessage,
-                files: files.map(file => ({ file, platform: 1 })),
+                files: files,
                 showLargeMessageDialog: false
             });
 
