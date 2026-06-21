@@ -74,14 +74,20 @@ export const settings = definePluginSettings({
     automaticSelection: {
         type: OptionType.BOOLEAN,
         displayName: "Automatic Selection",
-        description: "Automatically decides which hosting service is best suitable for your filetype and size.",
+        description: "Automatically decides which hosting service is best suitable for your filetype and size (defaults to private Zipline instance).",
         default: false
     },
     customZiplineServer: {
         type: OptionType.STRING,
-        displayName: "Custom Zipline Server",
-        description: "Your custom Zipline website for hosting files on your private server (default option on automatic selection).",
-        placeholder: "https://myziplinewebsite.com/api/upload"
+        displayName: "Zipline Server",
+        description: "Your custom Zipline server for hosting files privately.",
+        placeholder: "https://zipline.example.com/"
+    },
+    ziplineToken: {
+        type: OptionType.STRING,
+        displayName: "Zipline Token",
+        description: "Your Zipline server's token.",
+        placeholder: "XFc4AuM1NHviORXkMk==.KvZxXIEmX2DmBHRh..."
     }
 });
 
