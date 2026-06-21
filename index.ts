@@ -68,7 +68,7 @@ export const settings = definePluginSettings({
     warning: {
         type: OptionType.BOOLEAN,
         displayName: "Warning",
-        description: "Shows a warning before uploading to external hosting.",
+        description: "Shows a warning before uploading to an external hosting.",
         default: true
     },
     automaticSelection: {
