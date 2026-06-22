@@ -2,6 +2,9 @@
 
 Vencord plugin for automatically detecting, and uploading files that exceed max upload limit to a hosting service and sending the link instead.
 
+<img width="501" height="652" alt="image" src="https://github.com/user-attachments/assets/9ab491b3-8c4b-4902-be5d-329aeafbc556" />
+
+
 ## Installation
 
 Currently the plugin is not available on Vencord's official plugin list, hence you would have to install the plugin by creating a custom vencord build using the official guide, and running this command inside of your `src/userplugins` folder:
@@ -38,7 +41,8 @@ Official guide to build and inject: [https://docs.vencord.dev/installing/](https
 ## Setup Zipline
 
 In order to setup Zipline, you can enter your server's base URL and token inside settings of the plugin like so:
-<img width="862" height="752" alt="Screenshot 2026-06-22 160643" src="https://github.com/user-attachments/assets/f68691cc-fe0e-4707-9aa2-2349540ace54" />
+
+<img width="646" height="564" alt="Screenshot 2026-06-22 160643" src="https://github.com/user-attachments/assets/f68691cc-fe0e-4707-9aa2-2349540ace54" />
 
 You can also choose to disable the warning, and enable automatic selection, so that your files are uploaded to zipline directly without any interference from confirmation popups.
 
