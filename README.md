@@ -2,9 +2,9 @@
 
 Vencord plugin for automatically detecting, and uploading files that exceed max upload limit to a hosting service and sending the link instead.
 
-## Self host
+## Installation
 
-Currently the plugin is not available on Vencord's official plugin list, hence you would have to self-host the plugin by creating a custom vencord build using the official guide, and running this command inside of your `src/userplugins` folder:
+Currently the plugin is not available on Vencord's official plugin list, hence you would have to install the plugin by creating a custom vencord build using the official guide, and running this command inside of your `src/userplugins` folder:
 
 ```
 $ git clone https://github.com/f3tchcodes/LargeFileUploads largeFileUploads
