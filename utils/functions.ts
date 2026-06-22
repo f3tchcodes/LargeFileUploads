@@ -173,7 +173,7 @@ export async function uploadToZipline(files: File[], message: string) {
         if (uploadedFiles === "") return;
         return await sendMsg(channelID, `${message} ${uploadedFiles}`);
     } catch (err) {
-        showToast("Upload failed! Are you sure you entered the correct base URL and token?", Toasts.Type.FAILURE);
+        showToast("Upload failed! Make sure to enter the correct base URL and token!", Toasts.Type.FAILURE);
         console.log(err);
         return null;
     }
