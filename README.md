@@ -17,7 +17,7 @@ Vencord plugin for automatically detecting, and uploading files that exceed max 
 - 3 hours expiry time
 - Embed available
 
-**Custom Zipline instance**
+**Custom Zipline instance:**
 - Custom
 - Custom
 - Embed available
