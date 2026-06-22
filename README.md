@@ -10,8 +10,7 @@ Currently the plugin is not available on Vencord's official plugin list, hence y
 $ git clone https://github.com/f3tchcodes/LargeFileUploads largeFileUploads
 ```
 
-Once this is done, you need to build and inject your custom vencord, and you can use the plugin!
-Official guide to build and inject: [https://docs.vencord.dev/installing/](https://docs.vencord.dev/installing/)
+Once this is done, you need to build and inject your custom vencord, and you can use the plugin! Official guide to build and inject: [https://docs.vencord.dev/installing/](https://docs.vencord.dev/installing/)
 
 ## Supports:
 **Catbox:**
