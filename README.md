@@ -29,6 +29,6 @@ In order to setup Zipline, you can enter your server's base URL and token inside
 You can also choose to disable the warning, and enable automatic selection, so that your files are uploaded to zipline directly without any interference from confirmation popups.
 
 ## Uploading files
-You can directly upload files to Discord like you usually do with drag & drop, using upload button, or by pasting the file. Everything is managed with Discord's original workflow, no slash commands or any extra stuff, once you hit enter the plugin will upload the files and append the link of the files at the end of your message.
+You can directly upload files to Discord like you usually do with drag & drop, using upload button, or by pasting the file. Everything is managed with Discord's original workflow, no slash commands or any extra stuff, once you hit enter the plugin will automatically upload the files to a hosting service of your choice, append the link(s) of the file(s) at the end of your message, and send the message all by itself.
 
 Thank you for using LargeFileUploads!
