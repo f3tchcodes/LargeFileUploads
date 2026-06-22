@@ -5,10 +5,12 @@ Vencord plugin for automatically detecting, and uploading files that exceed max 
 ## Self host
 
 Currently the plugin is not available on Vencord's official plugin list, hence you would have to self-host the plugin by creating a custom vencord build using the official guide, and running this command inside of your `src/userplugins` folder:
+
 ```
 $ git clone https://github.com/f3tchcodes/LargeFileUploads largeFileUploads
 ```
-Once this is done, you need to build and inject your custom Vencord, and you can use the plugin!
+
+Once this is done, you need to build and inject your custom vencord, and you can use the plugin!
 Official guide to build and inject: [https://docs.vencord.dev/installing/](https://docs.vencord.dev/installing/)
 
 ## Supports:
